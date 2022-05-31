@@ -11,8 +11,10 @@ function App() {
   //state를 사용해도 자료를 저장할 수 있다.
   let [ 글제목,글제목변경] =useState(['남자 코트 추천','파이썬 독학','자바 독학']);
 
-  let [따봉, 따봉변경] = useState(0);
-  let [modal,setmodal] = useState(false);
+  let [따봉, 따봉변경] = useState([0,0,0]);
+
+
+  let [modal,setmodal] = useState(true);
 
   //이 형식에 맞추어 state를 사용 가능하다.
   //state는 자동으로 재렌더링이 된다.
@@ -42,6 +44,8 @@ function App() {
         copy[0] = '여자 코트 추천';
         글제목변경(copy);
         }}>  💁🏻‍♀️ </button>
+        
+     {/*    
 
 <button onClick={()=>{
         let ganada = [...글제목];
@@ -61,15 +65,37 @@ function App() {
       </div>
 
       <div className="list">
-        <h4>{글제목[2]}</h4>
+      <button onClick={ ()=>{ setmodal(!modal) } }> {글제목[0]} </button>
         <p>2월 17일 발행</p>
-      </div>
 
-      <Modal></Modal>
+        { 
+         modal == true ? <Modal></Modal> : null
+        }
+      </div> */}
+
+      {
+        글제목.map(function(a,i){
+          return(
+          <div className="list" key={i}>
+          <h4 onClick={ ()=>{ setmodal(!modal) } }> {글제목[i]} </h4>
+          <span onClick={()=>{
+            let good = [...따봉 ];
+            good[i] = good[i] + 1;
+            따봉변경(good)
+            }}>👍</span> {따봉[i]}
+           
+          
+          <p>2월 17일 발행</p>
+
+        </div>
+        )
+        })
+      }
 
 
-
-
+      {
+        modal ==true ? <Modal 글제목 = {글제목}/> :null
+      }
 
     </div>
     
@@ -78,10 +104,10 @@ function App() {
 
 //Modal창의 기능 부여 제목을 누르면 modal이 보이기!!
 
-function Modal(){
+function Modal(props){
   return(
     <div className="modal">
-      <h4>제목</h4>
+      <h4>{props.글제목[0]}</h4>
       <p>날짜</p>
       <p>상세내용</p>
       </div>
